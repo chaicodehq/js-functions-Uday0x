@@ -41,6 +41,45 @@
  */
 export function createTiffinPlan({ name, mealType = "veg", days = 30 } = {}) {
   // Your code here
+  if(mealType == "" || mealType === undefined){
+    return null
+  }
+
+    if(name == "" || name === undefined){
+    return null
+  }
+  if(mealType !="veg" && mealType!="nonveg" && mealType!="jain"){
+    return null
+  }
+
+
+  let price = 0
+  switch(mealType){
+    case "veg":
+      price = 80
+      break
+    case "nonveg":
+      price = 120
+      break
+    case "jain":
+      price = 90
+      break
+     default:
+      price = 0
+      
+  }
+  let dailyRate = price
+  let totalCost = price * days
+
+  return {
+    name,
+    mealType,
+    days,
+    dailyRate,
+    totalCost
+  }
+  
+
 }
 
 export function combinePlans(...plans) {
