@@ -1,4 +1,4 @@
-/**
+1/**
  * 🍱 Mumbai Tiffin Service - Plan Builder
  *
  * Mumbai ki famous tiffin delivery service hai. Customer ka plan banana hai
@@ -84,8 +84,70 @@ export function createTiffinPlan({ name, mealType = "veg", days = 30 } = {}) {
 
 export function combinePlans(...plans) {
   // Your code here
+  let totalCustomers = 0;
+  let totalRevenue = 0
+
+  if(plans.length == 0){
+    return null
+  }
+  let mealBreakdown ={
+    veg:0,
+    nonveg:0
+  }
+  let final = plans.map((i)=>{
+    if(i.name){
+       totalCustomers++
+    }
+
+    if(i.dailyRate){
+       totalRevenue += i.dailyRate * i.days
+    }
+
+    if(i.mealType){
+        if(i.mealType == "veg"){
+          mealBreakdown.veg++
+        }
+        if(i.mealType == "nonveg"){
+          mealBreakdown.nonveg++
+        }
+    }
+  })
+
+
+  return {
+    totalCustomers,
+    totalRevenue,
+    mealBreakdown
+  }
 }
 
 export function applyAddons(plan, ...addons) {
   // Your code here
+  if(!plan){
+      return null
+  }
+
+  let newPlan = {...plan}
+  let addonCost = 0
+  let final = addons.map((i)=>{
+    if(i.price){
+        addonCost += i.price
+    }
+  })
+  // let addonArray = addons.map((i)=>i.name)
+
+  let newDailyRate = plan.dailyRate + addonCost
+  let newTotalCost = newDailyRate * plan.days
+
+   
+   const newplan ={
+    ...plan,
+    dailyRate:newDailyRate,
+    totalCost:newTotalCost,
+    addonNames:addons.map((i)=>i.name)
+   } 
+
+   return newplan
+
+    
 }
